@@ -6,10 +6,10 @@ from num2words import num2words
 import glob
 import os
 
-def generate_UT(data, cnt, file_name):
+def generate_UT(data, cnt, path, file_name):
     # open excel template
     try:
-        workbook = load_workbook(filename="template/template.xlsx")
+        workbook = load_workbook(filename= path + "/template/template.xlsx")
     except:
         print("File 'template/template.xlsx' doesn't exist")
         exit()
@@ -89,12 +89,12 @@ def generate_UT(data, cnt, file_name):
             sheet.add_image(ttd, 'AC43')
 
     #save the file
-    workbook.save(filename="result/" + file_name + ".xlsx")
+    workbook.save(filename= path + "/result/" + file_name + ".xlsx")
 
-def generate_SCSF(data, cnt, file_name):
+def generate_SCSF(data, cnt, path, file_name):
     # open excel template
     try:
-        workbook = load_workbook(filename="template/template.xlsx")
+        workbook = load_workbook(filename= path + "/template/template.xlsx")
     except:
         print("File 'template/template.xlsx' doesn't exist")
         exit()
@@ -156,10 +156,10 @@ def generate_SCSF(data, cnt, file_name):
             sheet.add_image(ttd, 'AC39')
 
     #save the file
-    workbook.save(filename="result/" + file_name + ".xlsx")
+    workbook.save(filename= path + "/result/" + file_name + ".xlsx")
 
 # get all csv files
-path =  os.getcwd()
+path =  os.path.dirname(os.path.realpath(__file__))
 folder_name = "csv"
 read_files = glob.glob(path+"\\" + folder_name + "\\*.csv")
 
@@ -175,8 +175,8 @@ for read_file in read_files:
     file_name = read_file.split("\\")[-1][:-4]
 
     if(data.values[0][3]=="UT"): 
-        generate_UT(data, cnt, file_name)
+        generate_UT(data, cnt, path, file_name)
     elif(data.values[0][3]=="SC-SF"):
-        generate_SCSF(data, cnt, file_name)
+        generate_SCSF(data, cnt, path, file_name)
 
 print("DONE!")
