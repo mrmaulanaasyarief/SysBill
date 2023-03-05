@@ -89,6 +89,11 @@ def generate_UT(data, cnt, path, file_name):
             sheet.add_image(ttd, 'AC43')
 
     #save the file
+    # checking if the directory exist or not.
+    if not os.path.exists(path + "/result/"):
+        # then create it.
+        os.makedirs(path + "/result/")
+        
     workbook.save(filename= path + "/result/" + file_name + ".xlsx")
 
 def generate_SCSF(data, cnt, path, file_name):
@@ -156,6 +161,11 @@ def generate_SCSF(data, cnt, path, file_name):
             sheet.add_image(ttd, 'AC39')
 
     #save the file
+    # checking if the directory exist or not.
+    if not os.path.exists(path + "/result/"):
+        # then create it.
+        os.makedirs(path + "/result/")
+
     workbook.save(filename= path + "/result/" + file_name + ".xlsx")
 
 # get all csv files
