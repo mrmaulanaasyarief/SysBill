@@ -172,7 +172,7 @@ for read_file in read_files:
     print(data.values[0][3])
 
     # get csv file name
-    file_name = read_file.split("\\")[-1][:-4]
+    file_name = read_file.split("\\")[-1].split("/")[-1][:-4]
 
     if(data.values[0][3]=="UT"): 
         generate_UT(data, cnt, path, file_name)
