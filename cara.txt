@@ -1,0 +1,17 @@
+Sebelum mulai, folder csv isinya itu dari billing yang bentuknya udh jadi sheet di google, 
+nanti di download bentuknya csv, abis di download masukin ke folder csv. Sekarang itu pake data maret 2023
+Nanti itu ada kolom yang abu, ada yang ijo
+kolom abu, gaush diapa apain
+kolom ijo, yang diubah ubah nanti
+
+1. buka terminal
+2. arahin direktorinya ke tempat simpen folder ini
+3. cek dlu udah install pip belom, caranya ketik:
+	pip 
+   terus enter
+   kalo belom, install dluuu
+4. aistu, nanti di cmd ketik:
+   pip install -r requirements.txt
+5. aistu, ketik:
+   python generate_invoice.py
+   kalo error berarti belum install python, tapi harusnya udh si
