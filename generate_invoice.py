@@ -93,7 +93,7 @@ def generate_UT(data, cnt, path, file_name):
     if not os.path.exists(path + "/result/"):
         # then create it.
         os.makedirs(path + "/result/")
-        
+
     workbook.save(filename= path + "/result/" + file_name + ".xlsx")
 
 def generate_SCSF(data, cnt, path, file_name):
@@ -135,12 +135,12 @@ def generate_SCSF(data, cnt, path, file_name):
 
         #modify SF
         sheet["K21"] = dt_start + " - " + dt_end # Periode
-        sheet["K23"] = billing[10]   # Rate SC
-        sheet["S23"] = billing[11]   # Area SC
-        sheet["K24"] = billing[13]   # Vat SC
-        sheet["AE23"] = billing[12]    # Net Amount SC
-        sheet["AE24"] = billing[13]    # Vat Amount SC
-        sheet["AE25"] = billing[14]    # Total SC
+        sheet["K23"] = billing[10]   # Rate SF
+        sheet["S23"] = billing[6]   # Area SF
+        sheet["K24"] = billing[12]   # Vat SF
+        sheet["AE23"] = billing[11]    # Net Amount SF
+        sheet["AE24"] = billing[12]    # Vat Amount SF
+        sheet["AE25"] = billing[13]    # Total SF
 
         #modify admin
         sheet["AE27"] = billing[14]   # Materai
