@@ -1,0 +1,20 @@
+# SysBill
+
+SysBill is a program for creating excel with multiple sheets of invoice billing from CSV files. The CSV files contain the data of the invoice and the calculation result from the usage/used resource of the apartment (UT and SC-SF).
+
+## Requirements
+- Python
+- PIP package manager
+- Other packages can be checked on the requirements.txt file 
+
+## Installation
+- Installation of the packages can be done by typing
+```bash
+pip install -r requirements.txt
+```
+
+## Usage
+
+```python
+python generate_invoice.py
+```
