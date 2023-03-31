@@ -132,15 +132,17 @@ for read_file in read_files:
 
     # get csv file name
     file_name = read_file.split("\\")[-1].split("/")[-1][:-4]
-    print(path)
+
     # open excel template
     try:
         workbook = load_workbook(filename= path + "/template/template.xlsx")
     except:
         print("File 'template/template.xlsx' doesn't exist")
         exit()
-
-    for billing in data.values:
+    banyak = len(data.values)
+    for billing in data.values: 
+        print(banyak)
+        banyak = banyak-1
         if billing[25] != "0,00":
             workbook.copy_worksheet(workbook["UT"]).title = billing[0]+ " UT"
             sheet = workbook[billing[0]+ " UT"]
