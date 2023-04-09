@@ -96,7 +96,7 @@ def generate_SCSF(sheet, billing, cnt):
     sheet["K18"] = billing[adjust+5]   # Rate SC
     sheet["S18"] = billing[adjust+6]   # Area SC
     sheet["K19"] = billing[adjust+8]   # Vat SC
-    sheet["AE18"] = billing[adjust+7]    # Net Amount SC
+    sheet["AE17"] = billing[adjust+7]    # Net Amount SC
     sheet["AE19"] = billing[adjust+8]    # Vat Amount SC
     sheet["AE20"] = billing[adjust+9]    # Total SC
 
@@ -105,7 +105,7 @@ def generate_SCSF(sheet, billing, cnt):
     sheet["K23"] = billing[adjust+10]   # Rate SF
     sheet["S23"] = billing[adjust+6]   # Area SF
     sheet["K24"] = billing[adjust+12]   # Vat SF
-    sheet["AE23"] = billing[adjust+11]    # Net Amount SF
+    sheet["AE22"] = billing[adjust+11]    # Net Amount SF
     sheet["AE24"] = billing[adjust+12]    # Vat Amount SF
     sheet["AE25"] = billing[adjust+13]    # Total SF
 
@@ -124,7 +124,7 @@ read_files = glob.glob(path+"/" + folder_name + "/*.csv")
 # loop all csv files
 for read_file in read_files:
     # read csv
-    data = pd.read_csv(read_file, dayfirst=True, parse_dates=[4])
+    data = pd.read_csv(read_file, dayfirst=True, parse_dates=[4], dtype={'VA': str})
 
     cnt_ut = 1
     cnt_scsf = 1
