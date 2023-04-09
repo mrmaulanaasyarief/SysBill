@@ -124,7 +124,7 @@ read_files = glob.glob(path+"/" + folder_name + "/*.csv")
 # loop all csv files
 for read_file in read_files:
     # read csv
-    data = pd.read_csv(read_file, dayfirst=True, parse_dates=[4], dtype={'VA': str})
+    data = pd.read_csv(read_file, dayfirst=True, parse_dates=[4], dtype={'VA UT': str, 'VA SC-SF': str})
 
     cnt_ut = 1
     cnt_scsf = 1
