@@ -142,7 +142,7 @@ def generate_UT(sheet, billing, cnt):
     sheet["AE43"] = billing[54]   # Total Amount
 
     #modify admin
-    sheet["AE45"] = billing[23]   # Materai
+    sheet["AE45"] = "0,00"   # Late Charges
     sheet["AE46"] = billing[24]   # Admin Fee
     sheet["AE47"] = billing[56]   # Total Billing
     
@@ -186,11 +186,11 @@ def generate_SCSF(sheet, billing, cnt):
     sheet["AE25"] = billing[adjust+13]    # Total SF
 
     #modify admin
-    sheet["AE27"] = billing[adjust+14]   # Materai
-    sheet["AE28"] = billing[adjust+15]   # Admin Fee
-    sheet["AE29"] = billing[adjust+16]   # Total Billing
+    sheet["AE27"] = billing[adjust+15]   # Admin Fee
+    sheet["AE29"] = billing[adjust+14]   # Materai
+    sheet["AE30"] = billing[adjust+16]   # Total Billing
 
-    sheet["G32"] = (num2words(billing[adjust+16].replace(")","").replace("(","")[:-3].replace(".",""))+" rupiah").title()   # Terbilang
+    sheet["G33"] = (num2words(billing[adjust+16].replace(")","").replace("(","")[:-3].replace(".",""))+" rupiah").title()   # Terbilang
 
 # get all csv files
 path =  os.path.dirname(os.path.realpath(__file__))
@@ -246,7 +246,7 @@ for read_file in read_files:
             # ADJUSTMENT
             sheet.add_image(ttd, 'AC57')
         if "SC-SF" in str(sheet):
-            sheet.add_image(ttd, 'AC39')
+            sheet.add_image(ttd, 'AC40')
 
     #save the file
     # checking if the directory exist or not.
