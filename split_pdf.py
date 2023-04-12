@@ -32,14 +32,14 @@ file2pages, unit = set_file2pages()
 
 # get all csv files
 path =  os.path.dirname(os.path.realpath(__file__))
-folder_name = "result/pdf/"
-read_files = glob.glob(path+"/" + folder_name + "/*.pdf")
+folder_name = "result\\pdf\\"
+read_files = glob.glob(path+"\\" + folder_name + "\\*.pdf")
 
 #save the file
 # checking if the directory exist or not.
-if not os.path.exists(path +"/" + folder_name + "/split/"):
+if not os.path.exists(path +"\\" + folder_name + "\\split\\"):
     # then create it.
-    os.makedirs(path + "/" + folder_name + "/split/")
+    os.makedirs(path + "\\" + folder_name + "\\split\\")
 
 # loop all pdf files
 for read_file in read_files:
@@ -60,10 +60,11 @@ for read_file in read_files:
         else:
             # make a unique filename based on original file name plus the index
             name, ext = os.path.splitext(read_file)
-            names = name.split("/")
+            names = name.split("\\")
             names.pop()
-            name = "/".join(names)
-            output_filename = f"{name}/pdf/split/{unit[new_pdf_index]}.pdf"
+            names.append("split")
+            name = "\\".join(names)
+            output_filename = f"{name}\\{unit[new_pdf_index]}.pdf"
 
             # save the PDF file
             new_pdf_files[new_pdf_index].save(output_filename)
@@ -76,9 +77,9 @@ for read_file in read_files:
 
     # save the last PDF file
     name, ext = os.path.splitext(read_file)
-    names = name.split("/")
+    names = name.split("\\")
     names.pop()
-    name = "/".join(names)
-    output_filename = f"{name}/pdf/split/{unit[new_pdf_index]}.pdf"
+    name = "\\".join(names)
+    output_filename = f"{name}\\{unit[new_pdf_index]}.pdf"
     new_pdf_files[new_pdf_index].save(output_filename)
     print(f"[+] File: {output_filename} saved.")
