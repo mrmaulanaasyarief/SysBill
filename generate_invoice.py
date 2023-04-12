@@ -6,6 +6,7 @@ from num2words import num2words
 import glob
 import os
 import time
+import pickle as pkl
 
 def generate_UT(sheet, billing, cnt):
     billing[3] = pd.to_datetime(billing[3], format='%d/%m/%Y')
@@ -196,7 +197,6 @@ def generate_SCSF(sheet, billing, cnt):
 path =  os.path.dirname(os.path.realpath(__file__))
 folder_name = "csv"
 read_files = glob.glob(path+"/" + folder_name + "/*.csv")
-
 # loop all csv files
 for read_file in read_files:
     # read csv
@@ -219,8 +219,13 @@ for read_file in read_files:
         # ADJUSTMENT
         print("File 'template/template_with_adjustment.xlsx' doesn't exist")
         exit()
+
+    sequence = {}
+    sequence["unit"] = []
+    sequence["seq"] = []
     banyak = len(data.values)
     for billing in data.values: 
+        cnt_seq = 0
         print(banyak)
         banyak = banyak-1
         if billing[25] != "0,00":
@@ -228,12 +233,17 @@ for read_file in read_files:
             sheet = workbook[billing[0]+ " UT"]
             generate_UT(sheet, billing, cnt_ut)
             cnt_ut += 1
+            cnt_seq += 1
 
         if billing[38] != "0,00":   
             workbook.copy_worksheet(workbook["SC-SF"]).title = billing[0]+ " SC-SF"
             sheet = workbook[billing[0]+ " SC-SF"]
             generate_SCSF(sheet, billing, cnt_scsf)
-            cnt_scsf +=1
+            cnt_scsf += 1
+            cnt_seq += 1
+        
+        sequence["unit"].append(billing[0])
+        sequence["seq"].append(cnt_seq)
             
     del workbook["UT"]
     del workbook["SC-SF"]
@@ -256,5 +266,8 @@ for read_file in read_files:
     
     timestr = time.strftime("%Y%m%d-%H%M%S")
     workbook.save(filename= path + "/result/" + timestr + "-" + file_name + ".xlsx")
+
+    with open('sequence.pkl', 'wb') as f:
+        pkl.dump(sequence, f)
 
 print("DONE!")
