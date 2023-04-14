@@ -69,6 +69,17 @@ for read_file in read_files:
             # save the PDF file
             new_pdf_files[new_pdf_index].save(output_filename)
             print(f"[+] File: {output_filename} saved.")
+            
+            for n_sub, page_sub in enumerate(new_pdf_files[new_pdf_index].pages):
+                dst = Pdf.new()
+                dst.pages.append(page_sub)
+                if n_sub == 0:
+                    dst.save(f'{name}/{unit[new_pdf_index]} UT.pdf')
+                    print(f"[+] File: {name}/{unit[new_pdf_index]} UT.pdf saved.")
+                elif n_sub == 1:
+                    dst.save(f'{name}/{unit[new_pdf_index]} SC-SF.pdf')
+                    print(f"[+] File: {name}/{unit[new_pdf_index]} SC-SF.pdf saved.")
+
             # go to the next file
             new_pdf_index += 1
             # add the `n` page to the `new_pdf_index` file
@@ -84,3 +95,13 @@ for read_file in read_files:
     output_filename = f"{name}/{unit[new_pdf_index]}.pdf"
     new_pdf_files[new_pdf_index].save(output_filename)
     print(f"[+] File: {output_filename} saved.")
+
+    for n_sub, page_sub in enumerate(new_pdf_files[new_pdf_index].pages):
+        dst = Pdf.new()
+        dst.pages.append(page_sub)
+        if n_sub == 0:
+            dst.save(f'{name}/{unit[new_pdf_index]} UT.pdf')
+            print(f"[+] File: {name}/{unit[new_pdf_index]} UT.pdf saved.")
+        elif n_sub == 1:
+            dst.save(f'{name}/{unit[new_pdf_index]} SC-SF.pdf')
+            print(f"[+] File: {name}/{unit[new_pdf_index]} SC-SF.pdf saved.")
