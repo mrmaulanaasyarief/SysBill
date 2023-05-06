@@ -18,18 +18,12 @@ def generate_UT(sheet, billing, cnt):
     sheet["AF6"] = (billing[3] + pd.DateOffset(days=15)).strftime('%d/%m/%Y')   # Due Date
     sheet["E11"] = billing[0]   # Unit
     sheet["Q10"] = billing[3].month_name()+" "+str(billing[3].year)    # Tagihan Bulan
-    # sheet["Y10"] = billing[25]    # Jumlah Tagihan
-    # ADJUSTMENT
-    sheet["Y10"] = billing[56]    # Jumlah Tagihan
+    sheet["Y10"] = billing[25]    # Jumlah Tagihan
     sheet["AD10"] = billing[40]   # VA
 
     #modify electricity
-    # sheet["L16"] = (billing[3] + pd.DateOffset(days=19) + pd.DateOffset(months=-2)).strftime('%d/%m/%Y')   # Periode Start
-    # sheet["S16"] = (billing[3] + pd.DateOffset(days=19) + pd.DateOffset(months=-1)).strftime('%d/%m/%Y')   # Periode End
-    # ADJUSTMENT
-    sheet["L16"] = (billing[3] + pd.DateOffset(days=10) + pd.DateOffset(months=-2)).strftime('%d/%m/%Y')   # Periode Start
-    sheet["S16"] = (billing[3] + pd.DateOffset(days=10) + pd.DateOffset(months=-1)).strftime('%d/%m/%Y')   # Periode End
-    # ==========
+    sheet["L16"] = (billing[3] + pd.DateOffset(days=-9) + pd.DateOffset(months=-2)).strftime('%d/%m/%Y')   # Periode Start
+    sheet["S16"] = (billing[3] + pd.DateOffset(days=-9) + pd.DateOffset(months=-1)).strftime('%d/%m/%Y')   # Periode End
     sheet["K17"] = billing[9]   # Consumption Start
     sheet["Q17"] = billing[10]   # Consumption End
     sheet["K18"] = billing[8]   # Meter Factor
@@ -60,99 +54,29 @@ def generate_UT(sheet, billing, cnt):
     sheet["AE22"] = billing[13]   # Ppju
     sheet["AE23"] = billing[14]   # Total Amount
 
-    # ADJUSTMENT
-    #modify electricity
-    sheet["L24"] = (billing[3] + pd.DateOffset(days=11) + pd.DateOffset(months=-1)).strftime('%d/%m/%Y')   # Periode Start
-    sheet["S24"] = (billing[3] + pd.DateOffset(days=-9) + pd.DateOffset(months=0)).strftime('%d/%m/%Y')   # Periode End
-    sheet["K25"] = billing[10]   # Consumption Start
-    sheet["Q25"] = billing[44]   # Consumption End
-    sheet["K26"] = billing[8]   # Meter Factor
-    sheet["K27"] = billing[45]   # Usage
-    sheet["K28"] = billing[43]   # Minimum Charge
-    sheet["H29"] = billing[5] + " kVa"  # Daya kVa
-    sheet["AA27"] = billing[6]    # Rates 1
-    sheet["AA28"] = billing[6]    # Rates 2
-    if isinstance(billing[43], float):
-        min_chrg = 0
-        usg_chrg = billing[11].replace(".","").replace(",",".").replace(")","").replace("(","")
-    else:
-        min_chrg = billing[43].replace(".","").replace(",",".").replace(")","").replace("(","")
-        usg_chrg = billing[45].replace(".","").replace(",",".").replace(")","").replace("(","")
-    if float(usg_chrg)<float(min_chrg):
-        sheet["X27"] = ""   # X
-        sheet["AA27"] = ""   # rates
-        sheet["AD27"] = ""   # IDR
-        sheet["AE27"] = ""   # Amount Usage
-        sheet["AE28"] = billing[46]   # Amount Minimum
-    else:
-        sheet["AE27"] = billing[46]   # Amount Usage
-        sheet["AE28"] = ""   # Amount Minimum
-        sheet["X28"] = ""   # X
-        sheet["AA28"] = ""   # rates
-        sheet["AD28"] = ""   # IDR
-        sheet["AE28"] = ""   # Amount Usage
-    sheet["AE30"] = billing[47]   # Ppju
-    sheet["AE31"] = billing[48]   # Total Amount
-    # ==========
-
-    #modify water
-    # sheet["L24"] = (billing[3] + pd.DateOffset(days=19) + pd.DateOffset(months=-2)).strftime('%d/%m/%Y')   # Periode Start
-    # sheet["S24"] = (billing[3] + pd.DateOffset(days=19) + pd.DateOffset(months=-1)).strftime('%d/%m/%Y')   # Periode End
-    # sheet["K25"] = billing[16]   # Consumption Start
-    # sheet["Q25"] = billing[17]   # Consumption End
-    # sheet["K26"] = billing[18]   # Usage
-    # sheet["K27"] = billing[20]   # Fix Charge
-    # sheet["K28"] = billing[21]   # Maintenance
-    # sheet["AA26"] = billing[15]    # Rates
-    # sheet["AE26"] = billing[19]   # Amount Usage
-    # sheet["AE27"] = billing[20]   # Amount Fixed Charge
-    # sheet["AE28"] = billing[21]   # Amount Maintenance
-    # sheet["AE29"] = billing[22]   # Total Amount
-
-    # #modify admin
-    # sheet["AE31"] = billing[23]   # Materaui
-    # sheet["AE32"] = billing[24]   # Admin Fee
-    # sheet["AE33"] = billing[25]   # Total Billing
-    
-    # sheet["G36"] = (num2words(billing[25].replace(")","").replace("(","")[:-3].replace(".",""))+" rupiah").title()   # Terbilang
-    # ADJUSTMENT
-    sheet["L32"] = (billing[3] + pd.DateOffset(days=10) + pd.DateOffset(months=-2)).strftime('%d/%m/%Y')   # Periode Start
-    sheet["S32"] = (billing[3] + pd.DateOffset(days=10) + pd.DateOffset(months=-1)).strftime('%d/%m/%Y')   # Periode End
-    sheet["K33"] = billing[16]   # Consumption Start
-    sheet["Q33"] = billing[17]   # Consumption End
-    sheet["K34"] = billing[18]   # Usage
-    sheet["K35"] = billing[20]   # Fix Charge
-    sheet["K36"] = billing[21]   # Maintenance
-    sheet["AA34"] = billing[15]    # Rates
-    sheet["AE34"] = billing[19]   # Amount Usage
-    sheet["AE35"] = billing[20]   # Amount Fixed Charge
-    sheet["AE36"] = billing[21]   # Amount Maintenance
-    sheet["AE37"] = billing[22]   # Total Amount
-
-    sheet["L38"] = (billing[3] + pd.DateOffset(days=11) + pd.DateOffset(months=-1)).strftime('%d/%m/%Y')   # Periode Start
-    sheet["S38"] = (billing[3] + pd.DateOffset(days=-2) + pd.DateOffset(months=0)).strftime('%d/%m/%Y')   # Periode End
-    sheet["K39"] = billing[17]   # Consumption Start
-    sheet["Q39"] = billing[49]   # Consumption End
-    sheet["K40"] = billing[50]   # Usage
-    sheet["K41"] = billing[52]   # Fix Charge
-    sheet["K42"] = billing[53]   # Maintenance
-    sheet["AA40"] = billing[15]    # Rates
-    sheet["AE40"] = billing[51]   # Amount Usage
-    sheet["AE41"] = billing[52]   # Amount Fixed Charge
-    sheet["AE42"] = billing[53]   # Amount Maintenance
-    sheet["AE43"] = billing[54]   # Total Amount
+    # modify water
+    sheet["L24"] = (billing[3] + pd.DateOffset(days=-2) + pd.DateOffset(months=-2)).strftime('%d/%m/%Y')   # Periode Start
+    sheet["S24"] = (billing[3] + pd.DateOffset(days=-2) + pd.DateOffset(months=-1)).strftime('%d/%m/%Y')   # Periode End
+    sheet["K25"] = billing[16]   # Consumption Start
+    sheet["Q25"] = billing[17]   # Consumption End
+    sheet["K26"] = billing[18]   # Usage
+    sheet["K27"] = billing[20]   # Fix Charge
+    sheet["K28"] = billing[21]   # Maintenance
+    sheet["AA26"] = billing[15]   # Rates
+    sheet["AE26"] = billing[19]   # Amount Usage / Usage Charge
+    sheet["AE27"] = billing[20]   # Amount Fixed Charge
+    sheet["AE28"] = billing[21]   # Amount Maintenance
+    sheet["AE29"] = billing[22]   # Total Amount
 
     #modify admin
-    sheet["AE45"] = "0,00"   # Late Charges
-    sheet["AE46"] = billing[24]   # Admin Fee
-    sheet["AE47"] = billing[56]   # Total Billing
+    sheet["AE31"] = "0,00"   # Late Charges
+    sheet["AE32"] = billing[24]   # Materai
+    sheet["AE33"] = billing[25]   # Total Billing
     
-    sheet["G50"] = (num2words(billing[56].replace(")","").replace("(","")[:-3].replace(".",""))+" rupiah").title()   # Terbilang
-    # ==========
+    sheet["G36"] = (num2words(billing[25].replace(")","").replace("(","")[:-3].replace(".",""))+" rupiah").title()   # Terbilang
 
 def generate_SCSF(sheet, billing, cnt):
     billing[3] = pd.to_datetime(billing[3], format='%d/%m/%Y')
-    adjust = 22
     #modify header
     sheet["B4"] = "INV/SC-SF/DRK/"+str(billing[3].year)+"/"+billing[3].strftime('%m')+"/{:04d}".format(cnt) # inv number
     sheet["B5"] = billing[1]    # Tenant
@@ -161,8 +85,8 @@ def generate_SCSF(sheet, billing, cnt):
     sheet["AF6"] = (billing[3] + pd.DateOffset(days=15)).strftime('%d/%m/%Y')   # Due Date
     sheet["E11"] = billing[0]   # Unit
     sheet["Q10"] = billing[3].month_name()+" "+str(billing[3].year)    # Tagihan Bulan
-    sheet["Y10"] = billing[adjust+16]    # Jumlah Tagihan
-    sheet["AD10"] = billing[41]   # VA
+    sheet["Y10"] = billing[38]    # Jumlah Tagihan
+    sheet["AD10"] = billing[41]   # VA SC-SF
 
     # set date start and end
     dt_start = (billing[3]).strftime('%d/%m/%Y')
@@ -170,28 +94,29 @@ def generate_SCSF(sheet, billing, cnt):
     
     #modify SC
     sheet["K16"] = dt_start + " - " + dt_end # Periode
-    sheet["K18"] = billing[adjust+5]   # Rate SC
-    sheet["S18"] = billing[adjust+6]   # Area SC
-    sheet["K19"] = billing[adjust+8]   # Vat SC
-    sheet["AE17"] = billing[adjust+7]    # Net Amount SC
-    sheet["AE19"] = billing[adjust+8]    # Vat Amount SC
-    sheet["AE20"] = billing[adjust+9]    # Total SC
+    sheet["K18"] = billing[27]   # Rate SC
+    sheet["S18"] = billing[28]   # Area SC
+    sheet["K19"] = billing[30]   # Vat SC
+    sheet["AE17"] = billing[29]    # Net Amount SC
+    sheet["AE19"] = billing[30]    # Vat Amount SC
+    sheet["AE20"] = billing[31]    # Total SC
 
     #modify SF
     sheet["K21"] = dt_start + " - " + dt_end # Periode
-    sheet["K23"] = billing[adjust+10]   # Rate SF
-    sheet["S23"] = billing[adjust+6]   # Area SF
-    sheet["K24"] = billing[adjust+12]   # Vat SF
-    sheet["AE22"] = billing[adjust+11]    # Net Amount SF
-    sheet["AE24"] = billing[adjust+12]    # Vat Amount SF
-    sheet["AE25"] = billing[adjust+13]    # Total SF
+    sheet["K23"] = billing[32]   # Rate SF
+    sheet["S23"] = billing[28]   # Area SF
+    sheet["K24"] = billing[34]   # Vat SF
+    sheet["AE22"] = billing[33]    # Net Amount SF
+    sheet["AE24"] = billing[34]    # Vat Amount SF
+    sheet["AE25"] = billing[35]    # Total SF
 
     #modify admin
-    sheet["AE27"] = billing[adjust+15]   # Admin Fee
-    sheet["AE29"] = billing[adjust+14]   # Materai
-    sheet["AE30"] = billing[adjust+16]   # Total Billing
+    sheet["AE27"] = billing[36]   # Admin Fee
+    sheet["AE28"] = "0,00"   # Late Charges
+    sheet["AE29"] = billing[37]   # Materai
+    sheet["AE30"] = billing[38]   # Total Billing
 
-    sheet["G33"] = (num2words(billing[adjust+16].replace(")","").replace("(","")[:-3].replace(".",""))+" rupiah").title()   # Terbilang
+    sheet["G33"] = (num2words(billing[22+16].replace(")","").replace("(","")[:-3].replace(".",""))+" rupiah").title()   # Terbilang
 
 # get all csv files
 path =  os.path.dirname(os.path.realpath(__file__))
@@ -211,21 +136,20 @@ for read_file in read_files:
 
     # open excel template
     try:
-        # workbook = load_workbook(filename= path + "/template/template.xlsx")
-        # ADJUSTMENT
-        workbook = load_workbook(filename= path + "/template/template_with_adjustment.xlsx")
+        workbook = load_workbook(filename= path + "/template/template.xlsx")
     except:
-        # print("File 'template/template.xlsx' doesn't exist")
-        # ADJUSTMENT
-        print("File 'template/template_with_adjustment.xlsx' doesn't exist")
+        print("File 'template/template.xlsx' doesn't exist")
         exit()
 
     sequence = {}
     sequence["unit"] = []
     sequence["seq"] = []
+    sequence["type"] = []
     banyak = len(data.values)
     for billing in data.values: 
         cnt_seq = 0
+        temp_ut = 0
+        temp_scsf = 0
         print(banyak)
         banyak = banyak-1
         if billing[25] != "0,00":
@@ -233,6 +157,7 @@ for read_file in read_files:
             sheet = workbook[billing[0]+ " UT"]
             generate_UT(sheet, billing, cnt_ut)
             cnt_ut += 1
+            temp_ut += 1
             cnt_seq += 1
 
         if billing[38] != "0,00":   
@@ -240,10 +165,18 @@ for read_file in read_files:
             sheet = workbook[billing[0]+ " SC-SF"]
             generate_SCSF(sheet, billing, cnt_scsf)
             cnt_scsf += 1
+            temp_scsf += 1
             cnt_seq += 1
         
         sequence["unit"].append(billing[0])
         sequence["seq"].append(cnt_seq)
+        if(cnt_seq != 2):
+            if(temp_ut == 1):
+                sequence["type"].append("UT")
+            else:
+                sequence["type"].append("SC-SF")
+        else:
+            sequence["type"].append("SC-SF UT")
             
     del workbook["UT"]
     del workbook["SC-SF"]
@@ -252,9 +185,7 @@ for read_file in read_files:
         ttd = drawing.image.Image(path + "/" + 'img/ttd.png')
         sheet.add_image(img, 'B2')
         if "UT" in str(sheet):
-            # sheet.add_image(ttd, 'AC43')
-            # ADJUSTMENT
-            sheet.add_image(ttd, 'AC57')
+            sheet.add_image(ttd, 'AC43')
         if "SC-SF" in str(sheet):
             sheet.add_image(ttd, 'AC40')
 
@@ -264,8 +195,8 @@ for read_file in read_files:
         # then create it.
         os.makedirs(path + "/result/")
     
-    timestr = time.strftime("%Y%m%d-%H%M%S")
-    workbook.save(filename= path + "/result/" + timestr + "-" + file_name + ".xlsx")
+    # timestr = time.strftime("%Y%m%d-%H%M%S")
+    workbook.save(filename= path + "/result/" + "Billing " + file_name + ".xlsx")
 
     with open('sequence.pkl', 'wb') as f:
         pkl.dump(sequence, f)
