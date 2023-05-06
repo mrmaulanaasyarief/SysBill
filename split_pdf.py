@@ -22,10 +22,10 @@ def set_file2pages():
         file2pages[idx] = [a,b]
         idx += 1
 
-    return file2pages, arr["unit"]
+    return file2pages, arr["unit"], arr["type"]
 
 # a dictionary mapping PDF file to original PDF's page range
-file2pages, unit = set_file2pages()
+file2pages, unit, type = set_file2pages()
 
 # the target PDF document to split
 # filename = "result/pdf/Final Invoice April 23.pdf"
@@ -74,8 +74,12 @@ for read_file in read_files:
                 dst = Pdf.new()
                 dst.pages.append(page_sub)
                 if n_sub == 0:
-                    dst.save(f'{name}/{unit[new_pdf_index]} UT.pdf')
-                    print(f"[+] File: {name}/{unit[new_pdf_index]} UT.pdf saved.")
+                    if type[new_pdf_index] != "SC-SF UT":
+                        dst.save(f'{name}/{unit[new_pdf_index]} {type[new_pdf_index]}.pdf')
+                        print(f"[+] File: {name}/{unit[new_pdf_index]} {type[new_pdf_index]}.pdf saved.")
+                    else:
+                        dst.save(f'{name}/{unit[new_pdf_index]} UT.pdf')
+                        print(f"[+] File: {name}/{unit[new_pdf_index]} UT.pdf saved.")
                 elif n_sub == 1:
                     dst.save(f'{name}/{unit[new_pdf_index]} SC-SF.pdf')
                     print(f"[+] File: {name}/{unit[new_pdf_index]} SC-SF.pdf saved.")
@@ -100,8 +104,12 @@ for read_file in read_files:
         dst = Pdf.new()
         dst.pages.append(page_sub)
         if n_sub == 0:
-            dst.save(f'{name}/{unit[new_pdf_index]} UT.pdf')
-            print(f"[+] File: {name}/{unit[new_pdf_index]} UT.pdf saved.")
+            if type[new_pdf_index] != "SC-SF UT":
+                dst.save(f'{name}/{unit[new_pdf_index]} {type[new_pdf_index]}.pdf')
+                print(f"[+] File: {name}/{unit[new_pdf_index]} {type[new_pdf_index]}.pdf saved.")
+            else:
+                dst.save(f'{name}/{unit[new_pdf_index]} UT.pdf')
+                print(f"[+] File: {name}/{unit[new_pdf_index]} UT.pdf saved.")
         elif n_sub == 1:
             dst.save(f'{name}/{unit[new_pdf_index]} SC-SF.pdf')
             print(f"[+] File: {name}/{unit[new_pdf_index]} SC-SF.pdf saved.")
