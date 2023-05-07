@@ -7,6 +7,9 @@ import glob
 import os
 import time
 import pickle as pkl
+from tkinter import Tk
+from tkinter.filedialog import askopenfilename
+import tkinter.messagebox
 
 def generate_UT(sheet, billing, cnt):
     billing[3] = pd.to_datetime(billing[3], format='%d/%m/%Y')
@@ -118,87 +121,110 @@ def generate_SCSF(sheet, billing, cnt):
 
     sheet["G33"] = (num2words(billing[22+16].replace(")","").replace("(","")[:-3].replace(".",""))+" rupiah").title()   # Terbilang
 
-# get all csv files
-path =  os.path.dirname(os.path.realpath(__file__))
-folder_name = "csv"
-read_files = glob.glob(path+"/" + folder_name + "/*.csv")
-# loop all csv files
-for read_file in read_files:
-    # read csv
-    data = pd.read_csv(read_file, dayfirst=True, parse_dates=[4], dtype={"VA UT": str, "VA SC-SF": str})
-
-    cnt_ut = 1
-    cnt_scsf = 1
-    print(data.values[0][3])
-
-    # get csv file name
-    file_name = read_file.split("\\")[-1].split("/")[-1][:-4]
-
-    # open excel template
-    try:
-        workbook = load_workbook(filename= path + "/template/template.xlsx")
-    except:
-        print("File 'template/template.xlsx' doesn't exist")
-        exit()
-
-    sequence = {}
-    sequence["unit"] = []
-    sequence["seq"] = []
-    sequence["type"] = []
-    banyak = len(data.values)
-    for billing in data.values: 
-        cnt_seq = 0
-        temp_ut = 0
-        temp_scsf = 0
-        print(banyak)
-        banyak = banyak-1
-        if billing[25] != "0,00":
-            workbook.copy_worksheet(workbook["UT"]).title = billing[0]+ " UT"
-            sheet = workbook[billing[0]+ " UT"]
-            generate_UT(sheet, billing, cnt_ut)
-            cnt_ut += 1
-            temp_ut += 1
-            cnt_seq += 1
-
-        if billing[38] != "0,00":   
-            workbook.copy_worksheet(workbook["SC-SF"]).title = billing[0]+ " SC-SF"
-            sheet = workbook[billing[0]+ " SC-SF"]
-            generate_SCSF(sheet, billing, cnt_scsf)
-            cnt_scsf += 1
-            temp_scsf += 1
-            cnt_seq += 1
-        
-        sequence["unit"].append(billing[0])
-        sequence["seq"].append(cnt_seq)
-        if(cnt_seq != 2):
-            if(temp_ut == 1):
-                sequence["type"].append("UT")
+def main():
+    Tk().withdraw() # we don't want a full GUI, so keep the root window from appearing
+    while True:
+        filename = askopenfilename(title="Select CSV File") # show an "Open" dialog box and return the path to the selected file
+        if(filename==""):
+            if tkinter.messagebox.askretrycancel("Error",  "No CSV file selected"):
+                pass
             else:
-                sequence["type"].append("SC-SF")
+                exit()
         else:
-            sequence["type"].append("SC-SF UT")
-            
-    del workbook["UT"]
-    del workbook["SC-SF"]
-    for sheet in workbook:
-        img = drawing.image.Image(path + "/" + 'img/logo.png') 
-        ttd = drawing.image.Image(path + "/" + 'img/ttd.png')
-        sheet.add_image(img, 'B2')
-        if "UT" in str(sheet):
-            sheet.add_image(ttd, 'AC43')
-        if "SC-SF" in str(sheet):
-            sheet.add_image(ttd, 'AC40')
+            if(filename.lower().endswith(".csv")):
+                break
+            else:
+                if tkinter.messagebox.askretrycancel("Error",  "Selected file must be in CSV format"):
+                    pass
+                else:
+                    exit()
 
-    #save the file
-    # checking if the directory exist or not.
-    if not os.path.exists(path + "/result/"):
-        # then create it.
-        os.makedirs(path + "/result/")
+    read_files = [filename]
     
-    # timestr = time.strftime("%Y%m%d-%H%M%S")
-    workbook.save(filename= path + "/result/" + "Billing " + file_name + ".xlsx")
+    # # get all csv files
+    path =  os.path.dirname(os.path.realpath(__file__))
+    # folder_name = "csv"
+    # read_files = glob.glob(path+"/" + folder_name + "/*.csv")
+    # loop all csv files
+    for read_file in read_files:
+        # read csv
+        data = pd.read_csv(read_file, dayfirst=True, parse_dates=[4], dtype={"VA UT": str, "VA SC-SF": str})
 
-    with open('sequence.pkl', 'wb') as f:
-        pkl.dump(sequence, f)
+        cnt_ut = 1
+        cnt_scsf = 1
+        print(data.values[0][3])
 
-print("DONE!")
+        # get csv file name
+        file_name = read_file.split("\\")[-1].split("/")[-1][:-4]
+
+        # open excel template
+        try:
+            workbook = load_workbook(filename= path + "/template/template.xlsx")
+        except:
+            print("File 'template/template.xlsx' doesn't exist")
+            exit()
+
+        sequence = {}
+        sequence["unit"] = []
+        sequence["seq"] = []
+        sequence["type"] = []
+        banyak = len(data.values)
+        for billing in data.values: 
+            cnt_seq = 0
+            temp_ut = 0
+            temp_scsf = 0
+            print(banyak)
+            banyak = banyak-1
+            if billing[25] != "0,00":
+                workbook.copy_worksheet(workbook["UT"]).title = billing[0]+ " UT"
+                sheet = workbook[billing[0]+ " UT"]
+                generate_UT(sheet, billing, cnt_ut)
+                cnt_ut += 1
+                temp_ut += 1
+                cnt_seq += 1
+
+            if billing[38] != "0,00":   
+                workbook.copy_worksheet(workbook["SC-SF"]).title = billing[0]+ " SC-SF"
+                sheet = workbook[billing[0]+ " SC-SF"]
+                generate_SCSF(sheet, billing, cnt_scsf)
+                cnt_scsf += 1
+                temp_scsf += 1
+                cnt_seq += 1
+            
+            sequence["unit"].append(billing[0])
+            sequence["seq"].append(cnt_seq)
+            if(cnt_seq != 2):
+                if(temp_ut == 1):
+                    sequence["type"].append("UT")
+                else:
+                    sequence["type"].append("SC-SF")
+            else:
+                sequence["type"].append("SC-SF UT")
+                
+        del workbook["UT"]
+        del workbook["SC-SF"]
+        for sheet in workbook:
+            img = drawing.image.Image(path + "/" + 'img/logo.png') 
+            ttd = drawing.image.Image(path + "/" + 'img/ttd.png')
+            sheet.add_image(img, 'B2')
+            if "UT" in str(sheet):
+                sheet.add_image(ttd, 'AC43')
+            if "SC-SF" in str(sheet):
+                sheet.add_image(ttd, 'AC40')
+
+        #save the file
+        # checking if the directory exist or not.
+        if not os.path.exists(path + "/result/"):
+            # then create it.
+            os.makedirs(path + "/result/")
+        
+        # timestr = time.strftime("%Y%m%d-%H%M%S")
+        workbook.save(filename= path + "/result/" + "Billing " + file_name + ".xlsx")
+
+        with open('sequence.pkl', 'wb') as f:
+            pkl.dump(sequence, f)
+
+    print("DONE!")
+
+if __name__ == '__main__':
+    main()
