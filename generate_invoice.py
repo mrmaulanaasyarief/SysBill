@@ -225,6 +225,7 @@ def main():
             pkl.dump(sequence, f)
 
     print("DONE!")
+    tkinter.messagebox.showinfo("Done", "Billing Generated")
 
 if __name__ == '__main__':
     main()
