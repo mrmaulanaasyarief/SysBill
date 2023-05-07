@@ -218,10 +218,14 @@ def main():
             # then create it.
             os.makedirs(path + "/result/")
         
+        if not os.path.exists(path + "/result/Billing " + file_name):
+            # then create it.
+            os.makedirs(path + "/result/Billing " + file_name)
+        
         # timestr = time.strftime("%Y%m%d-%H%M%S")
-        workbook.save(filename= path + "/result/" + "Billing " + file_name + ".xlsx")
+        workbook.save(filename= path + "/result/Billing " + file_name + "/Billing " + file_name + ".xlsx")
 
-        with open('sequence.pkl', 'wb') as f:
+        with open(path + "/result/Billing " + file_name + "/Billing " + file_name +'.pkl', 'wb') as f:
             pkl.dump(sequence, f)
 
     print("DONE!")
