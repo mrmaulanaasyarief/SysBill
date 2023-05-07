@@ -121,6 +121,28 @@ def generate_SCSF(sheet, billing, cnt):
 
     sheet["G33"] = (num2words(billing[22+16].replace(")","").replace("(","")[:-3].replace(".",""))+" rupiah").title()   # Terbilang
 
+# Print iterations progress
+def printProgressBar (iteration, total, prefix = '', suffix = '', decimals = 1, length = 100, fill = '█', printEnd = "\r"):
+    """
+    Call in a loop to create terminal progress bar
+    @params:
+        iteration   - Required  : current iteration (Int)
+        total       - Required  : total iterations (Int)
+        prefix      - Optional  : prefix string (Str)
+        suffix      - Optional  : suffix string (Str)
+        decimals    - Optional  : positive number of decimals in percent complete (Int)
+        length      - Optional  : character length of bar (Int)
+        fill        - Optional  : bar fill character (Str)
+        printEnd    - Optional  : end character (e.g. "\r", "\r\n") (Str)
+    """
+    percent = ("{0:." + str(decimals) + "f}").format(100 * (iteration / float(total)))
+    filledLength = int(length * iteration // total)
+    bar = fill * filledLength + '-' * (length - filledLength)
+    print(f'\r{prefix} |{bar}| {percent}% {suffix}', end = printEnd)
+    # Print New Line on Complete
+    if iteration == total: 
+        print()
+
 def main():
     Tk().withdraw() # we don't want a full GUI, so keep the root window from appearing
     while True:
@@ -152,7 +174,7 @@ def main():
 
         cnt_ut = 1
         cnt_scsf = 1
-        print(data.values[0][3])
+        print("Generating Billing - " + data.values[0][3])
 
         # get csv file name
         file_name = read_file.split("\\")[-1].split("/")[-1][:-4]
@@ -168,13 +190,16 @@ def main():
         sequence["unit"] = []
         sequence["seq"] = []
         sequence["type"] = []
-        banyak = len(data.values)
+        total = len(data.values)
+        generated = 0
+        # Initial call to print 0% progress
+        printProgressBar(0, total, prefix = 'Progress:', suffix = 'Complete', length = 50)
         for billing in data.values: 
             cnt_seq = 0
             temp_ut = 0
             temp_scsf = 0
-            print(banyak)
-            banyak = banyak-1
+            generated += 1
+            printProgressBar(generated, total, prefix = 'Progress:', suffix = 'Complete', length = 50)
             if billing[25] != "0,00":
                 workbook.copy_worksheet(workbook["UT"]).title = billing[0]+ " UT"
                 sheet = workbook[billing[0]+ " UT"]
@@ -222,6 +247,7 @@ def main():
             # then create it.
             os.makedirs(path + "/result/Billing " + file_name)
         
+        print("Saving Billing...")
         # timestr = time.strftime("%Y%m%d-%H%M%S")
         workbook.save(filename= path + "/result/Billing " + file_name + "/Billing " + file_name + ".xlsx")
 
