@@ -70,6 +70,7 @@ def main():
     # the target PDF document to split
     # filename = "result/pdf/Final Invoice April 23.pdf"
 
+    print("Preparing...")
     # get all csv files
     path =  os.path.dirname(os.path.realpath(__file__))
     # get csv file name
@@ -98,7 +99,7 @@ def main():
         # the current pdf file index
         new_pdf_index = 0
 
-        print("Splitting PDF...")
+        print("Splitting PDF")
 
         # iterate over all PDF pages
         for n, page in enumerate(pdf.pages):  
