@@ -25,8 +25,8 @@ def generate_UT(sheet, billing, cnt):
     sheet["AD10"] = billing[40]   # VA
 
     #modify electricity
-    sheet["L16"] = (billing[3] + pd.DateOffset(days=-9) + pd.DateOffset(months=-2)).strftime('%d/%m/%Y')   # Periode Start
-    sheet["S16"] = (billing[3] + pd.DateOffset(days=-9) + pd.DateOffset(months=-1)).strftime('%d/%m/%Y')   # Periode End
+    sheet["L16"] = (billing[3] + pd.DateOffset(days=-9) + pd.DateOffset(months=-1)).strftime('%d/%m/%Y')   # Periode Start
+    sheet["S16"] = (billing[3] + pd.DateOffset(days=-9)).strftime('%d/%m/%Y')   # Periode End
     sheet["K17"] = billing[9]   # Consumption Start
     sheet["Q17"] = billing[10]   # Consumption End
     sheet["K18"] = billing[8]   # Meter Factor
@@ -58,8 +58,8 @@ def generate_UT(sheet, billing, cnt):
     sheet["AE23"] = billing[14]   # Total Amount
 
     # modify water
-    sheet["L24"] = (billing[3] + pd.DateOffset(days=-2) + pd.DateOffset(months=-2)).strftime('%d/%m/%Y')   # Periode Start
-    sheet["S24"] = (billing[3] + pd.DateOffset(days=-2) + pd.DateOffset(months=-1)).strftime('%d/%m/%Y')   # Periode End
+    sheet["L24"] = (billing[3] + pd.DateOffset(days=-2) + pd.DateOffset(months=-1)).strftime('%d/%m/%Y')   # Periode Start
+    sheet["S24"] = (billing[3] + pd.DateOffset(days=-2)).strftime('%d/%m/%Y')   # Periode End
     sheet["K25"] = billing[16]   # Consumption Start
     sheet["Q25"] = billing[17]   # Consumption End
     sheet["K26"] = billing[18]   # Usage
