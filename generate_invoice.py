@@ -13,10 +13,10 @@ def generate_UT(sheet, billing, cnt):
     billing[3] = pd.to_datetime(billing[3], format='%d/%m/%Y')
     #modify header
     sheet["B4"] = "INV/UT/DRK/"+str(billing[3].year)+"/"+billing[3].strftime('%m')+"/{:04d}".format(cnt) # inv number
-    sheet["B5"] = billing[1]    # Tenant
-    sheet["B6"] = billing[2]    # Alamat Tenant
-    sheet["AF5"] = billing[3]   # Invoice Date
-    sheet["AF6"] = (billing[3] + pd.DateOffset(days=15)).strftime('%d/%m/%Y')   # Due Date
+    sheet["B6"] = billing[1]    # Tenant
+    sheet["B7"] = billing[2]    # Alamat Tenant
+    sheet["AF6"] = billing[3]   # Invoice Date
+    sheet["AF7"] = (billing[3] + pd.DateOffset(days=15)).strftime('%d/%m/%Y')   # Due Date
     sheet["E11"] = billing[0]   # Unit
     sheet["Q10"] = billing[3].month_name()+" "+str(billing[3].year)    # Tagihan Bulan
     sheet["Y10"] = billing[25]    # Jumlah Tagihan
@@ -80,10 +80,10 @@ def generate_SCSF(sheet, billing, cnt):
     billing[3] = pd.to_datetime(billing[3], format='%d/%m/%Y')
     #modify header
     sheet["B4"] = "INV/SC-SF/DRK/"+str(billing[3].year)+"/"+billing[3].strftime('%m')+"/{:04d}".format(cnt) # inv number
-    sheet["B5"] = billing[1]    # Tenant
-    sheet["B6"] = billing[2]    # Alamat Tenant
-    sheet["AF5"] = billing[3]   # Invoice Date
-    sheet["AF6"] = (billing[3] + pd.DateOffset(days=15)).strftime('%d/%m/%Y')   # Due Date
+    sheet["B6"] = billing[1]    # Tenant
+    sheet["B7"] = billing[2]    # Alamat Tenant
+    sheet["AF6"] = billing[3]   # Invoice Date
+    sheet["AF7"] = (billing[3] + pd.DateOffset(days=15)).strftime('%d/%m/%Y')   # Due Date
     sheet["E11"] = billing[0]   # Unit
     sheet["Q10"] = billing[3].month_name()+" "+str(billing[3].year)    # Tagihan Bulan
     sheet["Y10"] = billing[38]    # Jumlah Tagihan
