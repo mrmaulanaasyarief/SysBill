@@ -3,9 +3,7 @@ from openpyxl import drawing
 from pprint import pprint
 import pandas as pd
 from num2words import num2words
-import glob
 import os
-import time
 import pickle as pkl
 from tkinter import Tk
 from tkinter.filedialog import askopenfilename
@@ -72,11 +70,11 @@ def generate_UT(sheet, billing, cnt):
     sheet["AE29"] = billing[22]   # Total Amount
 
     #modify admin
-    sheet["AE31"] = "0,00"   # Late Charges
+    sheet["AE31"] = billing[42] if isinstance(billing[42], str) else "0,00"  # Late Charges
     sheet["AE32"] = billing[24]   # Materai
-    sheet["AE33"] = billing[25]   # Total Billing
+    sheet["AE33"] = billing[44]   # Total Billing
     
-    sheet["G36"] = (num2words(billing[25].replace(")","").replace("(","")[:-3].replace(".",""))+" rupiah").title()   # Terbilang
+    sheet["G36"] = (num2words(billing[44].replace(")","").replace("(","")[:-3].replace(".",""))+" rupiah").title()   # Terbilang
 
 def generate_SCSF(sheet, billing, cnt):
     billing[3] = pd.to_datetime(billing[3], format='%d/%m/%Y')
@@ -115,11 +113,11 @@ def generate_SCSF(sheet, billing, cnt):
 
     #modify admin
     sheet["AE27"] = billing[36]   # Admin Fee
-    sheet["AE28"] = "0,00"   # Late Charges
+    sheet["AE28"] = billing[43] if isinstance(billing[43], str) else "0,00"   # Late Charges
     sheet["AE29"] = billing[37]   # Materai
-    sheet["AE30"] = billing[38]   # Total Billing
+    sheet["AE30"] = billing[46]   # Total Billing
 
-    sheet["G33"] = (num2words(billing[22+16].replace(")","").replace("(","")[:-3].replace(".",""))+" rupiah").title()   # Terbilang
+    sheet["G33"] = (num2words(billing[46].replace(")","").replace("(","")[:-3].replace(".",""))+" rupiah").title()   # Terbilang
 
 # Print iterations progress
 def printProgressBar (iteration, total, prefix = '', suffix = '', decimals = 1, length = 100, fill = '█', printEnd = "\r"):
