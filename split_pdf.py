@@ -112,7 +112,7 @@ def main():
                 name, ext = os.path.splitext(read_file)
                 names = name.split("pdf")
                 names.pop()
-                names.append(folder_name+"/pdf splitted")
+                names.append(path+"/"+folder_name+"pdf splitted")
                 name = "/".join(names)
                 output_filename = f"{name}/{unit[new_pdf_index]}.pdf"
 
@@ -145,7 +145,7 @@ def main():
         name, ext = os.path.splitext(read_file)
         names = name.split("pdf")
         names.pop()
-        names.append(folder_name+"/pdf splitted")
+        names.append(path+"/"+folder_name+"pdf splitted")
         name = "/".join(names)
         output_filename = f"{name}/{unit[new_pdf_index]}.pdf"
         new_pdf_files[new_pdf_index].save(output_filename)
