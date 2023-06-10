@@ -117,7 +117,7 @@ def generate_SCSF(sheet, billing, cnt):
     sheet["AE29"] = billing[37]   # Materai
     sheet["AE30"] = billing[45]   # Total Billing
 
-    sheet["G33"] = (num2words(billing[46].replace(")","").replace("(","")[:-3].replace(".",""))+" rupiah").title()   # Terbilang
+    sheet["G33"] = (num2words(billing[45].replace(")","").replace("(","")[:-3].replace(".",""))+" rupiah").title()   # Terbilang
 
 # Print iterations progress
 def printProgressBar (iteration, total, prefix = '', suffix = '', decimals = 1, length = 100, fill = '█', printEnd = "\r"):
