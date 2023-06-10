@@ -19,7 +19,7 @@ def generate_UT(sheet, billing, cnt):
     sheet["AF7"] = (billing[3] + pd.DateOffset(days=15)).strftime('%d/%m/%Y')   # Due Date
     sheet["E11"] = billing[0]   # Unit
     sheet["Q10"] = billing[3].month_name()+" "+str(billing[3].year)    # Tagihan Bulan
-    sheet["Y10"] = billing[25]    # Jumlah Tagihan
+    sheet["Y10"] = billing[44]    # Jumlah Tagihan
     sheet["AD10"] = billing[40]   # VA
 
     #modify electricity
@@ -86,7 +86,7 @@ def generate_SCSF(sheet, billing, cnt):
     sheet["AF7"] = (billing[3] + pd.DateOffset(days=15)).strftime('%d/%m/%Y')   # Due Date
     sheet["E11"] = billing[0]   # Unit
     sheet["Q10"] = billing[3].month_name()+" "+str(billing[3].year)    # Tagihan Bulan
-    sheet["Y10"] = billing[38]    # Jumlah Tagihan
+    sheet["Y10"] = billing[45]    # Jumlah Tagihan
     sheet["AD10"] = billing[41]   # VA SC-SF
 
     # set date start and end
@@ -115,7 +115,7 @@ def generate_SCSF(sheet, billing, cnt):
     sheet["AE27"] = billing[36]   # Admin Fee
     sheet["AE28"] = billing[43] if isinstance(billing[43], str) else "0,00"   # Late Charges
     sheet["AE29"] = billing[37]   # Materai
-    sheet["AE30"] = billing[46]   # Total Billing
+    sheet["AE30"] = billing[45]   # Total Billing
 
     sheet["G33"] = (num2words(billing[46].replace(")","").replace("(","")[:-3].replace(".",""))+" rupiah").title()   # Terbilang
 
