@@ -12,15 +12,15 @@ import tkinter.messagebox
 def generate_UT(sheet, billing, cnt):
     billing[3] = pd.to_datetime(billing[3], format='%d/%m/%Y')
     #modify header
-    sheet["B4"] = "INV/UT/DRK/"+str(billing[3].year)+"/"+billing[3].strftime('%m')+"/{:04d}".format(cnt) # inv number
+    sheet["B4"] = "INV/UT/GKN/"+str(billing[3].year)+"/"+billing[3].strftime('%m')+"/{:04d}".format(cnt) # inv number
     sheet["B6"] = billing[1]    # Tenant
     sheet["B7"] = billing[2]    # Alamat Tenant
     sheet["AF6"] = billing[3]   # Invoice Date
     sheet["AF7"] = (billing[3] + pd.DateOffset(days=15)).strftime('%d/%m/%Y')   # Due Date
     sheet["E11"] = billing[0]   # Unit
-    sheet["Q10"] = billing[3].month_name()+" "+str(billing[3].year)    # Tagihan Bulan
-    sheet["Y10"] = billing[44]    # Jumlah Tagihan
-    sheet["AD10"] = billing[40]   # VA
+    sheet["Y10"] = billing[3].month_name()+" "+str(billing[3].year)    # Tagihan Bulan
+    sheet["AD10"] = billing[25]    # Jumlah Tagihan
+    # sheet["AD10"] = billing[40]   # VA
 
     #modify electricity
     sheet["L16"] = (billing[3] + pd.DateOffset(days=-9) + pd.DateOffset(months=-1)).strftime('%d/%m/%Y')   # Periode Start
@@ -31,6 +31,7 @@ def generate_UT(sheet, billing, cnt):
     sheet["K19"] = billing[11]   # Usage
     sheet["K20"] = billing[7]   # Minimum Charge
     sheet["H21"] = billing[5] + " kVa"  # Daya kVa
+    sheet['K22'] = "2,4%" # PPJU
     sheet["AA19"] = billing[6]    # Rates 1
     sheet["AA20"] = billing[6]    # Rates 2
     if isinstance(billing[7], float):
@@ -46,12 +47,11 @@ def generate_UT(sheet, billing, cnt):
         sheet["AE19"] = ""   # Amount Usage
         sheet["AE20"] = billing[12]   # Amount Minimum
     else:
-        sheet["AE19"] = billing[12]   # Amount Usage
-        sheet["AE20"] = ""   # Amount Minimum
         sheet["X20"] = ""   # X
         sheet["AA20"] = ""   # rates
         sheet["AD20"] = ""   # IDR
-        sheet["AE20"] = ""   # Amount Usage
+        sheet["AE20"] = ""   # Amount Minimum
+        sheet["AE19"] = billing[12]   # Amount Usage
     sheet["AE22"] = billing[13]   # Ppju
     sheet["AE23"] = billing[14]   # Total Amount
 
@@ -70,24 +70,26 @@ def generate_UT(sheet, billing, cnt):
     sheet["AE29"] = billing[22]   # Total Amount
 
     #modify admin
-    sheet["AE31"] = billing[42] if isinstance(billing[42], str) else "0,00"  # Late Charges
-    sheet["AE32"] = billing[24]   # Materai
-    sheet["AE33"] = billing[44]   # Total Billing
+    sheet["AE31"] = billing[23]   # Common Area
+    # sheet["AE31"] = billing[42] if isinstance(billing[42], str) else "0,00"  # Late Charges
+    sheet["AE32"] = "0,00"  # Late Charges
+    sheet["AE33"] = billing[24]   # Materai
+    sheet["AE34"] = billing[25]   # Total Billing
     
-    sheet["G36"] = (num2words(billing[44].replace(")","").replace("(","")[:-3].replace(".",""))+" rupiah").title()   # Terbilang
+    sheet["G37"] = (num2words(billing[25].replace(")","").replace("(","")[:-3].replace(".",""))+" rupiah").title()   # Terbilang
 
 def generate_SCSF(sheet, billing, cnt):
     billing[3] = pd.to_datetime(billing[3], format='%d/%m/%Y')
     #modify header
-    sheet["B4"] = "INV/SC-SF/DRK/"+str(billing[3].year)+"/"+billing[3].strftime('%m')+"/{:04d}".format(cnt) # inv number
+    sheet["B4"] = "INV/SC-SF/GKN/"+str(billing[3].year)+"/"+billing[3].strftime('%m')+"/{:04d}".format(cnt) # inv number
     sheet["B6"] = billing[1]    # Tenant
     sheet["B7"] = billing[2]    # Alamat Tenant
     sheet["AF6"] = billing[3]   # Invoice Date
     sheet["AF7"] = (billing[3] + pd.DateOffset(days=15)).strftime('%d/%m/%Y')   # Due Date
     sheet["E11"] = billing[0]   # Unit
-    sheet["Q10"] = billing[3].month_name()+" "+str(billing[3].year)    # Tagihan Bulan
-    sheet["Y10"] = billing[45]    # Jumlah Tagihan
-    sheet["AD10"] = billing[41]   # VA SC-SF
+    sheet["Y10"] = billing[3].month_name()+" "+str(billing[3].year)    # Tagihan Bulan
+    sheet["AD10"] = billing[38]    # Jumlah Tagihan
+    # sheet["AD10"] = billing[41]   # VA SC-SF
 
     # set date start and end
     dt_start = (billing[3]).strftime('%d/%m/%Y')
@@ -97,27 +99,28 @@ def generate_SCSF(sheet, billing, cnt):
     sheet["K16"] = dt_start + " - " + dt_end # Periode
     sheet["K18"] = billing[27]   # Rate SC
     sheet["S18"] = billing[28]   # Area SC
-    sheet["K19"] = billing[30]   # Vat SC
+    sheet["K19"] = billing[30]   # PPH
     sheet["AE17"] = billing[29]    # Net Amount SC
-    sheet["AE19"] = billing[30]    # Vat Amount SC
+    sheet["AE19"] = billing[30]    # PPH
     sheet["AE20"] = billing[31]    # Total SC
 
     #modify SF
     sheet["K21"] = dt_start + " - " + dt_end # Periode
     sheet["K23"] = billing[32]   # Rate SF
     sheet["S23"] = billing[28]   # Area SF
-    sheet["K24"] = billing[34]   # Vat SF
+    sheet["K24"] = billing[34]   # PPH
     sheet["AE22"] = billing[33]    # Net Amount SF
-    sheet["AE24"] = billing[34]    # Vat Amount SF
+    sheet["AE24"] = billing[34]    # PPH
     sheet["AE25"] = billing[35]    # Total SF
 
     #modify admin
     sheet["AE27"] = billing[36]   # Admin Fee
-    sheet["AE28"] = billing[43] if isinstance(billing[43], str) else "0,00"   # Late Charges
+    # sheet["AE28"] = billing[43] if isinstance(billing[43], str) else "0,00"   # Late Charges
+    sheet["AE28"] = "0,00"   # Late Charges
     sheet["AE29"] = billing[37]   # Materai
-    sheet["AE30"] = billing[45]   # Total Billing
+    sheet["AE30"] = billing[38]   # Total Billing
 
-    sheet["G33"] = (num2words(billing[45].replace(")","").replace("(","")[:-3].replace(".",""))+" rupiah").title()   # Terbilang
+    sheet["G33"] = (num2words(billing[38].replace(")","").replace("(","")[:-3].replace(".",""))+" rupiah").title()   # Terbilang
 
 # Print iterations progress
 def printProgressBar (iteration, total, prefix = '', suffix = '', decimals = 1, length = 100, fill = '█', printEnd = "\r"):
@@ -168,11 +171,17 @@ def main():
     # loop all csv files
     for read_file in read_files:
         # read csv
-        data = pd.read_csv(read_file, dayfirst=True, parse_dates=[4], dtype={"VA UT": str, "VA SC-SF": str})
+        # data = pd.read_csv(read_file, dayfirst=True, parse_dates=[4], dtype={"VA UT": str, "VA SC-SF": str})
+        data = pd.read_csv(read_file, dayfirst=True, parse_dates=[4])
 
         cnt_ut = 1
         cnt_scsf = 1
-        print("Generating Billing - " + data.values[0][3])
+        
+        idx = 0
+        while pd.isna(data.values[idx][3]):
+            idx += 1
+
+        print("Generating Billing - " + data.values[idx][3])
 
         # get csv file name
         file_name = read_file.split("\\")[-1].split("/")[-1][:-4]
@@ -198,7 +207,9 @@ def main():
             temp_scsf = 0
             generated += 1
             printProgressBar(generated, total, prefix = 'Progress:', suffix = 'Complete', length = 50)
-            if billing[25] != "0,00":
+            if(pd.isna(billing[4]) or billing[4] == ""):
+                pass
+            else:
                 workbook.copy_worksheet(workbook["UT"]).title = billing[0]+ " UT"
                 sheet = workbook[billing[0]+ " UT"]
                 generate_UT(sheet, billing, cnt_ut)
@@ -206,7 +217,9 @@ def main():
                 temp_ut += 1
                 cnt_seq += 1
 
-            if billing[38] != "0,00":   
+            if(pd.isna(billing[26]) or billing[26] == ""):
+                pass
+            else: 
                 workbook.copy_worksheet(workbook["SC-SF"]).title = billing[0]+ " SC-SF"
                 sheet = workbook[billing[0]+ " SC-SF"]
                 generate_SCSF(sheet, billing, cnt_scsf)
@@ -214,26 +227,29 @@ def main():
                 temp_scsf += 1
                 cnt_seq += 1
             
-            sequence["unit"].append(billing[0])
-            sequence["seq"].append(cnt_seq)
-            if(cnt_seq != 2):
-                if(temp_ut == 1):
-                    sequence["type"].append("UT")
+            if(cnt_seq != 0):
+                sequence["unit"].append(billing[0])
+                sequence["seq"].append(cnt_seq)
+                if(cnt_seq != 2):
+                    if(temp_ut == 1):
+                        sequence["type"].append("UT")
+                    else:
+                        sequence["type"].append("SC-SF")
                 else:
-                    sequence["type"].append("SC-SF")
-            else:
-                sequence["type"].append("SC-SF UT")
+                    sequence["type"].append("SC-SF UT")
                 
         del workbook["UT"]
         del workbook["SC-SF"]
         for sheet in workbook:
-            img = drawing.image.Image(path + "/" + 'img/logo.png') 
-            ttd = drawing.image.Image(path + "/" + 'img/ttd.png')
+            img = drawing.image.Image(path + "/" + 'img/logo_gkn.jpg') 
+            ttd = drawing.image.Image(path + "/" + 'img/ttd_audrey_cap.png')
+            logo = drawing.image.Image(path + "/" + 'img/logo.png')
             sheet.add_image(img, 'B2')
+            sheet.add_image(logo, 'AB2')
             if "UT" in str(sheet):
                 sheet.add_image(ttd, 'AC43')
             if "SC-SF" in str(sheet):
-                sheet.add_image(ttd, 'AC40')
+                sheet.add_image(ttd, 'AC39')
 
         #save the file
         # checking if the directory exist or not.
